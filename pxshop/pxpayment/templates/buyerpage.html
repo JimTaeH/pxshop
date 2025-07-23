@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sample</title>
+</head>
+<body>
+    {{ buyer_data }}
+    {{ buyer_data.user_id }}
+    <p>
+        {% for t_data in transaction_data %}
+            {{ t_data.transaction_id }} <br />
+            {% for data in t_data.product.all %}
+                รายการ: {{data.productName}}<br />
+                รายละเอียด: {{data.productDes}}<br />
+                ราคา: {{data.price}}<br />
+            {% endfor %}
+        {% endfor %}
+    </p>
+</body>
+</html>
