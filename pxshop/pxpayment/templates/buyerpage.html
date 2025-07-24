@@ -1,13 +1,22 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sample</title>
-</head>
-<body>
-    {{ buyer_data }}
-    {{ buyer_data.user_id }}
+{% extends 'base.html' %}
+{% block section1 %}
+    <h1>
+        {{ buyer_data }}
+    </h1>
+    <h2>
+        {{ buyer_data.user_id }}
+    </h2>
+    <form method="POST">
+        {% csrf_token %}
+        <select name="product" id="product">
+            <option value="">Select a product</option>
+            {% for product in products %}
+                <option type="text" value="{{ product.product_id }}">{{ product.productName }}</option>
+            {% endfor %}
+        </select> <br />
+        <input type="number" name="amount" required id="amount"> <br />
+        <button type="submit"> บันทึก </button>
+    </form>
     <p>
         {% for t_data in transaction_data %}
             {{ t_data.transaction_id }} <br />
@@ -18,5 +27,4 @@
             {% endfor %}
         {% endfor %}
     </p>
-</body>
-</html>
+{% endblock %}

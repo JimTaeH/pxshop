@@ -20,5 +20,7 @@ from pxpayment import views
 urlpatterns = [
     path('', views.index, name="Homepage"),
     path('buyer/', views.buyerpage, name="Buyerpage"),
+    path('login/', views.login_new, name='login'),
+    path('logout/', views.logout_request, name='logout'),
     path('admin/', admin.site.urls),
 ]

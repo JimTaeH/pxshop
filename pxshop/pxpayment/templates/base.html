@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'messages.html' %}
+    <title>PX Payment</title>
+</head>
+<body>
+    <!-- ***** Header Area Start ***** -->
+  <header class="header-area header-sticky">
+      <div class="container">
+          <div class="row">
+              <div class="col-12">
+                  <nav class="main-nav">
+                      <!-- ***** Logo Start ***** -->
+                      <a href="/#top" class="logo">
+                          ระบบร้านค้า PX
+                      </a>
+                      <!-- ***** Logo End ***** -->
+                      <!-- ***** Menu Start ***** -->
+                      <ul class="nav">
+                          <li>
+                             <a href="/#top" class="active">หน้าหลัก</a>
+                          </li>
+                          {% if user.is_authenticated %}
+                          <li>
+                             <a href="/logout/">ออกจากระบบ</a>
+                          </li>
+                          {% else %}
+                          <li>
+                             <a href="/login/">เข้าสู่ระบบ</a>
+                          </li> 
+                          {% endif %}
+                      </ul>        
+                      <!-- ***** Menu End ***** -->
+                  </nav>
+              </div>
+          </div>
+      </div>
+  </header>
+  <!-- ***** Header Area End ***** -->
+    {% block section1 %}
+    {% endblock %}
+</body>
+</html>
