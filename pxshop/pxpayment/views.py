@@ -27,6 +27,14 @@ def buyerpage(request):
 	buyer_id = buyer_data.user_id
 	transaction_data = Transaction.objects.filter(buyer=buyer_id)
 
+	transactions_total_price = []
+	for data in transaction_data:
+		for item in data.item_list.all():
+			item_price = item.product.price
+			item_amount = item.amount
+			total_price = item_price * item_amount
+			transactions_total_price.append(total_price)
+
 	products = Product.objects.all()
 
 	if request.method == 'POST':
@@ -44,7 +52,8 @@ def buyerpage(request):
 	context = {
 		"buyer_data": buyer_data,
 		"transaction_data": transaction_data,
-		"products": products
+		"products": products,
+		"all_total_price": transactions_total_price
 	}
 
 	return render(request, 'buyerpage.html', context)

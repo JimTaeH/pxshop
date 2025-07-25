@@ -19,12 +19,15 @@
     </form>
     <p>
         {% for t_data in transaction_data %}
-            {{ t_data.transaction_id }} <br />
-            {% for data in t_data.product.all %}
-                รายการ: {{data.productName}}<br />
-                รายละเอียด: {{data.productDes}}<br />
-                ราคา: {{data.price}}<br />
+            {{ t_data.created_at }} <br />
+            {% for data in t_data.item_list.all %}
+                รายการ: {{data.product.productName}}<br />
+                ราคา/หน่วย: {{data.product.price}}<br />
+                จำนวน: {{data.amount}}<br />
             {% endfor %}
+        {% endfor %}
+        {% for total_price in  all_total_price %}
+            {{ total_price }} <br />
         {% endfor %}
     </p>
 {% endblock %}

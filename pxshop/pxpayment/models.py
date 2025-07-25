@@ -15,7 +15,7 @@ class Product(models.Model):
     productName = models.CharField(max_length=255)
     productDes = models.TextField(max_length=5000)
     price = models.FloatField()
-    sold_units = models.IntegerField()
+    # sold_units = models.IntegerField()
     shop_owner = models.ForeignKey(ShopOwner, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -30,10 +30,17 @@ class Buyer(models.Model):
     def __str__(self):
         return f"{self.generation} {self.firstname} {self.surname}"
     
+class TransactionItems(models.Model):
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    amount = models.IntegerField()
+
 class Transaction(models.Model):
     transaction_id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
     buyer = models.ForeignKey(Buyer, on_delete=models.CASCADE)
-    product = models.ManyToManyField(Product)
+    # product = models.ManyToManyField(Product)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    item_list = models.ManyToManyField(TransactionItems)
 
     def __str__(self):
         return f"{self.transaction_id}"
