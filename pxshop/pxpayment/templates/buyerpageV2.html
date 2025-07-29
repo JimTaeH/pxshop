@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% block section1 %}
+
+<h1>
+    {{ buyer_data }}
+</h1>
+
+<form method="POST">
+  {% csrf_token %}
+    <table>
+    <tr><th>Product</th><th>Price</th><th>Quantity</th></tr>
+    {% for product in products %}
+      <tr>
+        <td>{{ product.productName }}</td>
+        <td>{{ product.price }}</td>
+        <td>
+          <input type="number" name="quantity_{{ product.product_id }}" min="0" value="0">
+          <input type="hidden" name="product_ids" value="{{ product.product_id }}">
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <button type="submit">Submit Order</button>
+</form>
+
+{% for transaction in transaction_data %}
+<table border="1" cellspacing="0" cellpadding="5">
+    <thead>
+        <tr>
+            <th>วันที่</th>
+            <th>รายการ</th>
+            <th>ราคา/หน่วย (บาท)</th>
+            <th>จำนวน</th>
+            <th>รวม (บาท)</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in transaction.item_list.all %}
+            <tr>
+                {% if forloop.first %}
+                    <td rowspan="{{ transaction.items|length }}">
+                        {{ transaction.created_at|date:"d M Y H:i" }}
+                    </td>
+                {% endif %}
+                    <td>{{ item.product.productName }}</td>
+                    <td>{{ item.product.price }}</td>
+                    <td>{{ item.amount }}</td>
+                    <td> 0 </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endfor %}
+{% endblock %}

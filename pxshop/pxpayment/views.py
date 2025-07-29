@@ -5,7 +5,7 @@ from django.shortcuts import render, redirect
 from django.contrib import messages #import messages
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.forms import AuthenticationForm
-from .models import Buyer, Transaction, Product
+from .models import Buyer, Transaction, Product, TransactionItems
 
 # Create your views here.
 def index(request):
@@ -57,6 +57,44 @@ def buyerpage(request):
 	}
 
 	return render(request, 'buyerpage.html', context)
+
+def buyerpageV2(request):
+	# Buyer Data
+	buyer_fname = request.GET.get('fname')
+	buyer_lname = request.GET.get('lname')
+	buyer_data = Buyer.objects.get(firstname=buyer_fname, surname=buyer_lname)
+	buyer_id = buyer_data.user_id
+
+	# Product Data
+	products = Product.objects.all()
+
+	# Transaction Data
+	transaction_data = Transaction.objects.filter(buyer=buyer_id)
+
+	if request.method == 'POST':
+		product_ids = request.POST.getlist('product_ids')
+		quantity_ids = list(map(lambda x: "quantity_"+x, product_ids))
+		quantities = [request.POST.get(quantity_id) for quantity_id in quantity_ids]
+
+		total_transaction_item = []
+		for product_id in product_ids:
+			quantity = int(request.POST.get(f"quantity_{product_id}"))
+			if quantity > 0:
+				transaction_item = TransactionItems.objects.create(product=products.get(product_id=product_id), amount=quantity)
+				total_transaction_item.append(transaction_item)
+		
+		transaction = Transaction.objects.create(buyer=buyer_data)
+		transaction.item_list.set(total_transaction_item)
+		return redirect(request.META.get('HTTP_REFERER', '/'))
+
+
+	context = {
+		"buyer_data": buyer_data,
+		"products": products,
+		"transaction_data": transaction_data
+	}
+
+	return render(request, 'buyerpageV2.html', context)
 
 def login_new(request):
 	if request.method == "POST":
