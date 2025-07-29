@@ -5,6 +5,7 @@
     {{ buyer_data }}
 </h1>
 
+{% if user.is_authenticated %}
 <form method="POST">
   {% csrf_token %}
     <table>
@@ -22,6 +23,8 @@
   </table>
   <button type="submit">Submit Order</button>
 </form>
+{% else %}
+{% endif %}
 
 {% for transaction in transaction_data %}
 <table border="1" cellspacing="0" cellpadding="5">
