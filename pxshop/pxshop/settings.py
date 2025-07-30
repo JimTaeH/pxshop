@@ -26,7 +26,12 @@ SECRET_KEY = 'django-insecure-cd1*qv(nk-$x*wl++s*g-um5z%6-z$b=6rpqakj-um&249ruws
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
+
+CSRF_TRUSTED_ORIGINS = [
+    "https://b683f1b3095c.ngrok-free.app",  # ✅ Add your exact Ngrok domain
+]
+
 
 MESSAGE_TAGS = {
         messages.DEBUG: 'alert-secondary',
