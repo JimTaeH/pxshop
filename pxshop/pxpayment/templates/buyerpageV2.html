@@ -26,6 +26,10 @@
 {% else %}
 {% endif %}
 
+<h2>
+  Grand Total: {{ grandtotal }}
+</h2>
+
 {% for transaction in transaction_data %}
 <table border="1" cellspacing="0" cellpadding="5">
     <thead>
@@ -34,7 +38,7 @@
             <th>รายการ</th>
             <th>ราคา/หน่วย (บาท)</th>
             <th>จำนวน</th>
-            <th>รวม (บาท)</th>
+            <th>รวม</th>
         </tr>
     </thead>
     <tbody>
@@ -48,10 +52,20 @@
                     <td>{{ item.product.productName }}</td>
                     <td>{{ item.product.price }}</td>
                     <td>{{ item.amount }}</td>
-                    <td> 0 </td>
+                    <td>{{ item.total_price }}</td>
             </tr>
         {% endfor %}
     </tbody>
+    <tfoot>
+      <tr>
+        <td>
+          <strong>รวมทั้งหมด (บาท)</strong>
+        </td>
+        <td id="grand-total" colspan="5" style="text-align: center;">
+          {{ transaction.subtotal }}
+        </td>
+      </tr>
+    </tfoot>
 </table>
 {% endfor %}
 {% endblock %}

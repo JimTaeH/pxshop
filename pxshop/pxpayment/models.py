@@ -33,6 +33,7 @@ class Buyer(models.Model):
 class TransactionItems(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     amount = models.IntegerField()
+    total_price = models.FloatField(default=0.0)
 
 class Transaction(models.Model):
     transaction_id = models.UUIDField(primary_key=True, unique=True, default=uuid.uuid4, editable=False)
@@ -41,6 +42,7 @@ class Transaction(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     item_list = models.ManyToManyField(TransactionItems)
+    subtotal = models.FloatField(default=0.0)
 
     def __str__(self):
         return f"{self.transaction_id}"

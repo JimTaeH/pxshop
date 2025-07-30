@@ -71,27 +71,39 @@ def buyerpageV2(request):
 	# Transaction Data
 	transaction_data = Transaction.objects.filter(buyer=buyer_id)
 
+	# Grand Total
+	grandtotal = 0
+	for t_data in transaction_data:
+		subtotal = t_data.subtotal
+		grandtotal += subtotal
+
 	if request.method == 'POST':
 		product_ids = request.POST.getlist('product_ids')
-		quantity_ids = list(map(lambda x: "quantity_"+x, product_ids))
-		quantities = [request.POST.get(quantity_id) for quantity_id in quantity_ids]
 
+		subtotal = 0
 		total_transaction_item = []
 		for product_id in product_ids:
 			quantity = int(request.POST.get(f"quantity_{product_id}"))
+			product_obj = products.get(product_id=product_id)
 			if quantity > 0:
-				transaction_item = TransactionItems.objects.create(product=products.get(product_id=product_id), amount=quantity)
+				transaction_item = TransactionItems.objects.create(product=product_obj, 
+																   amount=quantity, 
+																   total_price=product_obj.price*quantity)
 				total_transaction_item.append(transaction_item)
+				subtotal += product_obj.price*quantity
 		
 		transaction = Transaction.objects.create(buyer=buyer_data)
 		transaction.item_list.set(total_transaction_item)
+		transaction.subtotal = subtotal
+		transaction.save()
 		return redirect(request.META.get('HTTP_REFERER', '/'))
 
 
 	context = {
 		"buyer_data": buyer_data,
 		"products": products,
-		"transaction_data": transaction_data
+		"transaction_data": transaction_data,
+		"grandtotal": grandtotal
 	}
 
 	return render(request, 'buyerpageV2.html', context)
