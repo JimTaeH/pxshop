@@ -1,0 +1,45 @@
+{%load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    {% include 'messages.html' %}
+    <title>PX Payment</title>
+    <!-- Bootstrap core CSS -->
+    <link href="{% static '/bootstrap-5.0.2-dist/css/bootstrap.min.css' %}" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="display-1 text-center text-primary"><b>PX Payment</b></h1>
+        <p class="text-center"><b>ระบบชำระเงินของ PX Shop ร้อย.ทย.รร.นนก.</b></p>
+    </div>
+    
+    <div class="container text-center">
+        <img src="{% static 'images/4548592-removebg-preview.png' %}" alt="" style="max-width: 300px;" class="img-fluid">
+    </div>
+
+    <div class="container d-flex justify-content-center align-items-center">
+    <div class="card p-4 shadow" style="max-width: 400px; width: 100%;">
+      <h2 class="text-center mb-4">เข้าสู่ระบบร้านค้า</h2>
+      <form action="/login" method="POST">
+        <div class="mb-3">
+          <label for="email" class="form-label">Email address</label>
+          <input type="email" class="form-control" id="email" name="email" required autofocus>
+        </div>
+        <div class="mb-3">
+          <label for="password" class="form-label">Password</label>
+          <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="d-grid">
+          <button type="submit" class="btn btn-primary">Login</button>
+        </div>
+        <div class="mt-3 text-center">
+          <a href="#">Forgot password?</a>
+        </div>
+      </form>
+    </div>
+  </div>
+
+</body>
+</html>

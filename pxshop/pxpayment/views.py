@@ -19,6 +19,9 @@ def index(request):
 	}
 	return render(request, 'index.html', context)
 
+def indexV2(request):
+	return render(request, 'indexV2.html')
+
 def buyerpage(request):
 	buyer_fname = request.GET.get('fname')
 	buyer_lname = request.GET.get('lname')
