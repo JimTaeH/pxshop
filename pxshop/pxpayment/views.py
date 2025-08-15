@@ -20,7 +20,25 @@ def index(request):
 	return render(request, 'index.html', context)
 
 def indexV2(request):
-	return render(request, 'indexV2.html')
+	user = request.user
+	context = {
+		"user": user
+	}
+
+	if request.method == 'POST':
+		username = request.POST.get('username')
+		password = request.POST.get('password')
+		user = authenticate(request, username=username, password=password)
+		if user is not None:
+			login(request, user)
+			messages.success(request, "You are now logged in.")
+			return redirect('/indexV2')
+		else:
+			messages.error(request, "Invalid username or password.")
+	else:
+		messages.error(request, "Please log in to continue.")
+
+	return render(request, 'indexV2.html', context=context)
 
 def buyerpage(request):
 	buyer_fname = request.GET.get('fname')
@@ -132,4 +150,4 @@ def login_new(request):
 def logout_request(request):
 	logout(request)
 	messages.info(request, "You have successfully logged out.") 
-	return redirect("/")
+	return redirect("/indexV2")

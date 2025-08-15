@@ -1,6 +1,6 @@
 import pandas as pd
 import numpy as np
-from .models import Product, Buyer
+from .models import Product, Buyer, Transaction, TransactionItems
 from tqdm import tqdm
 
 def upload_products_from_csv(file_path):
@@ -43,3 +43,4 @@ def upload_buyers_from_csv(file_path):
         print("Buyers uploaded successfully.")
     except Exception as e:
         print(f"An error occurred while uploading buyers: {e}")
+
